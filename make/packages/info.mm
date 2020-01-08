@@ -105,7 +105,7 @@ $($(1).staging.meta.pyc): | ${dir $($(1).staging.meta)}
           $($(1).staging.meta) > $($(1).staging.meta.py)
 	@${call log.action,python,$($(1).root)$($(1).meta)}
 	$(python.compile) $($(1).staging.meta.py)
-	$(rm) $($(1).staging.meta.py)
+	#$(mv) $($(1).staging.meta.py) ${dir $($(1).staging.meta.pyc)}
 
 # mark the package meta-data product as phony so it gets made unconditionally
 .PHONY: $($(1).staging.meta.pyc)
@@ -128,6 +128,7 @@ $(path.pyc): $(path.py) | ${dir $(path.pyc)}
 	@${call log.action,python,${subst $($(1).home)/,,$(path.py)}}
 	$(python.compile) $(path.py)
 	$(mv) $$(<:$(languages.python.sources)=$(languages.python.pyc)) $(path.pyc)
+	$(cp) $(path.py) ${dir $(path.pyc)}
 
 # all done
 endef
